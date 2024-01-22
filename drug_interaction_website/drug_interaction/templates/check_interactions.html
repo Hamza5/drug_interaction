@@ -1,0 +1,30 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Check Drug Interactions</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <h1>Check Drug Interactions</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Check Interactions</button>
+    </form>
+
+    <hr>
+
+    {% if interactions %}
+    <h2>Interactions:</h2>
+    <ul>
+        {% for interaction in interactions %}
+            <li>{{ interaction.code }} - {{ interaction.name }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+</body>
+</html>

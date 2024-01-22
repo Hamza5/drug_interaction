@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Drug Interactions</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <h1>Drug Interactions</h1>
+
+    <h2>Interactions:</h2>
+    <ul>
+        {% for interaction in interactions %}
+            <li>{{ interaction.code }} - {{ interaction.name }}</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'check_interactions' %}">Back to Interaction Check</a>
+
+</body>
+</html>
