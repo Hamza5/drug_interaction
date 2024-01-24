@@ -1,12 +1,10 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Drug Interactions</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
-</head>
-<body>
-    <h1>Drug Interactions</h1>
+{% extends 'base.html' %}
+
+{% block title %}Drug Interactions{% endblock %}
+
+{% block head %}Drug Interactions{% endblock %}
+
+{% block content %}
 
     <h2>Interactions:</h2>
     <ul>
@@ -17,5 +15,4 @@
 
     <a href="{% url 'check_interactions' %}">Back to Interaction Check</a>
 
-</body>
-</html>
+{% endblock %}

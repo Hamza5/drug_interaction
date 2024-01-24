@@ -1,0 +1,17 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Drug interactions - {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <nav>
+        <a href="{% url 'check_interactions' %}">Check interactions</a>
+        <a href="{% url 'products' %}">Products</a>
+    </nav>
+    <h1>{% block header %}{%  endblock %}</h1>
+    {% block content %}{% endblock %}
+</body>
+</html>

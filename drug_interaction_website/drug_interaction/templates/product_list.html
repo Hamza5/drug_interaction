@@ -1,0 +1,17 @@
+{%  extends "base.html" %}
+{% block title %} Products {% endblock %}
+{% block content %}
+    <h1>Products</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Add">
+    </form>
+    <ul>
+        {% for product in products %}
+            <li><a href="{% url 'product_update' product.id %}">{{ product.name }}</a></li>
+        {% empty %}
+            <li>No products found.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
