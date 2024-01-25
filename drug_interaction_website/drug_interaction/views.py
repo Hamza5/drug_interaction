@@ -1,33 +1,24 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import UpdateView, CreateView
+from django.views.generic import UpdateView, CreateView, TemplateView
 from drug_interaction.models import Drug, ProductName
-from .forms import DrugInteractionForm
+
 
 def check_drug_interactions(request):
-    if request.method == 'POST':
-        form = DrugInteractionForm(request.POST)
-        if form.is_valid():
-            drug1_name = form.cleaned_data['drug1_name']
-            drug2_name = form.cleaned_data['drug2_name']
-
-            try:
-                drug1 = Drug.objects.get(name=drug1_name)
-                drug2 = Drug.objects.get(name=drug2_name)
-
-                # Check for drug interactions based on their relationships
-                interactions = set(drug1.atc_codes.all()).intersection(set(drug2.atc_codes.all()))
-                
-                return render(request, 'interactions.html', {'interactions': interactions})
-            
-            except Drug.DoesNotExist:
-                # Handle if drugs are not found
-                print("nottttfound")
-
-    else:
-        form = DrugInteractionForm()
-
-    return render(request, 'check_interactions.html', {'form': form})
+    drug_names = request.GET.getlist('drugs')
+    errors = []
+    for drug_name in drug_names:
+        if not Drug.objects.filter(name=drug_name).exists():
+            errors.append(f'Drug "{drug_name}" does not exist')
+    if errors:
+        return render(request, 'check_interactions.html', {'errors': errors, 'drugs': drug_names})
+    interactions = []
+    drugs = Drug.objects.filter(name__in=drug_names)
+    for drug1 in drugs:
+        for drug2 in drugs:
+            if drug1 != drug2:
+                interactions.extend(drug1.atc_codes.all().intersection(drug2.atc_codes.all()))
+    return render(request, 'check_interactions.html', {'interactions': interactions, 'drugs': drug_names})
 
 
 class ProductShowUpdate(UpdateView):
