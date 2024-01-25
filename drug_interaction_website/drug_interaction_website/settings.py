@@ -9,12 +9,20 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import sys
 from pathlib import Path
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Define the paths to your CSV files
+ATC_AGENT_CSV = os.path.join(BASE_DIR, 'drug_interaction/DrugBankParse/atc-agent.csv')
+ATC_PRODUCTNAME_CSV = os.path.join(BASE_DIR, 'drug_interaction/DrugBankParse/atc-productname.csv')
+AGENT_PRODUCTNAME_CSV = os.path.join(BASE_DIR, 'drug_interaction/DrugBankParse/agent-productname.csv')
+
+# Set the maximum number of lines to read from the CSV files (set to sys.maxsize to read all lines)
+MAX_LINES = 100000  # sys.maxsize
 
 
 # Quick-start development settings - unsuitable for production
