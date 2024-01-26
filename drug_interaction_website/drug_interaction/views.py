@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView, CreateView
 from django.core.paginator import Paginator
+
 from drug_interaction.models import Drug, ProductName, ATCCode
 
 
@@ -68,3 +69,25 @@ class ATCCodeShowUpdate(UpdateView):
     fields = '__all__'
     template_name = 'atc_code.html'
     success_url = reverse_lazy('atc_codes')
+
+
+class DrugListCreate(CreateView):
+    model = Drug
+    fields = '__all__'
+    template_name = 'drug_list.html'
+    success_url = reverse_lazy('drugs')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        drugs = Drug.objects.all().order_by('name')
+        paginator = Paginator(drugs, self.request.GET.get('page_size', 25))
+        page = self.request.GET.get('page', 1)
+        context['drugs'] = paginator.get_page(page)
+        return context
+
+
+class DrugShowUpdate(UpdateView):
+    model = Drug
+    fields = '__all__'
+    template_name = 'drug.html'
+    success_url = reverse_lazy('drugs')

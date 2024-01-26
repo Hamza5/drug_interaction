@@ -1,0 +1,28 @@
+{%  extends "base.html" %}
+{% block title %} Drugs {% endblock %}
+{% block content %}
+    <h1>Drugs</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Add">
+    </form>
+    <ul>
+        {% for drug in drugs %}
+            <li><a href="{% url 'drug_update' drug.id %}">{{ drug.name }}</a></li>
+        {% empty %}
+            <li>No drugs found.</li>
+        {% endfor %}
+    </ul>
+    <div>
+        {% if drugs.has_previous %}
+            <a href="?page={{ drugs.previous_page_number }}">Previous</a>
+        {% endif %}
+        <span>
+        Page {{ drugs.number }} of {{ drugs.paginator.num_pages }}.
+    </span>
+        {% if drugs.has_next %}
+            <a href="?page={{ drugs.next_page_number }}">Next</a>
+        {% endif %}
+    </div>
+{% endblock %}
