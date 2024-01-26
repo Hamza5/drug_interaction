@@ -26,12 +26,18 @@
                 <li>{{ error }}</li>
             {% endfor %}
         </ul>
-    {% elif interactions %}
+    {% elif interactions is not None %}
 
         <h2>Interactions:</h2>
         <ul>
-            {% for interaction in interactions %}
-                <li>{{ interaction.code }} - {{ interaction.name }}</li>
+            {% for drugs, codes in interactions.items %}
+                <li><p>{{ drugs.0 }} ↔️ {{ drugs.1 }}:</p>
+                    <ul>
+                    {% for code in codes %}
+                        <li>{{ code }}</li>
+                    {% endfor %}
+                    </ul>
+                </li>
             {% empty %}
                 <li>No interactions found</li>
             {% endfor %}

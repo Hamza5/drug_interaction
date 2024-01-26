@@ -12,12 +12,13 @@ def check_drug_interactions(request):
             errors.append(f'Drug "{drug_name}" does not exist')
     if errors:
         return render(request, 'check_interactions.html', {'errors': errors, 'drugs': drug_names})
-    interactions = []
+    interactions = {}
     drugs = Drug.objects.filter(name__in=drug_names)
     for drug1 in drugs:
         for drug2 in drugs:
-            if drug1 != drug2:
-                interactions.extend(drug1.atc_codes.all().intersection(drug2.atc_codes.all()))
+            if drug1 != drug2 and (drug2.name, drug1.name) not in interactions.keys():
+                if drug1_drug2_atc_codes := drug1.atc_codes.all().intersection(drug2.atc_codes.all()):
+                    interactions[(drug1.name, drug2.name)] = drug1_drug2_atc_codes
     return render(request, 'check_interactions.html', {'interactions': interactions, 'drugs': drug_names})
 
 
