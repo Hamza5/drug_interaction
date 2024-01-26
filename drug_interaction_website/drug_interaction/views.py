@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView, CreateView
 from django.core.paginator import Paginator
-from drug_interaction.models import Drug, ProductName
+from drug_interaction.models import Drug, ProductName, ATCCode
 
 
 def check_drug_interactions(request):
@@ -32,11 +32,6 @@ class ProductShowUpdate(UpdateView):
     template_name = 'product.html'
     success_url = reverse_lazy('products')
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['product'] = ProductName.objects.get(id=self.kwargs['pk'])
-        return context
-
 
 class ProductListCreate(CreateView):
     model = ProductName
@@ -51,3 +46,25 @@ class ProductListCreate(CreateView):
         page = self.request.GET.get('page', 1)
         context['products'] = paginator.get_page(page)
         return context
+
+
+class ATCCodeListCreate(CreateView):
+    model = ProductName
+    template_name = 'atc_code_list.html'
+    fields = '__all__'
+    success_url = reverse_lazy('atc_codes')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        atc_codes = ATCCode.objects.all().order_by('code')
+        paginator = Paginator(atc_codes, self.request.GET.get('page_size', 25))
+        page = self.request.GET.get('page', 1)
+        context['atc_codes'] = paginator.get_page(page)
+        return context
+
+
+class ATCCodeShowUpdate(UpdateView):
+    model = ATCCode
+    fields = '__all__'
+    template_name = 'atc_code.html'
+    success_url = reverse_lazy('atc_codes')
