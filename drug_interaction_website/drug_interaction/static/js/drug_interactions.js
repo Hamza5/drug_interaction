@@ -26,4 +26,9 @@ document.addEventListener("DOMContentLoaded", () => {
     for (const button of removeButtons) {
         button.addEventListener("click", removeField);
     }
+    if (removeButtons.length === 0) {
+        for (let i = 0; i < 2; i++) {
+            addField({target: addButton});
+        }
+    }
 });
