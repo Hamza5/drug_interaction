@@ -16,14 +16,8 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Define the paths to your CSV files
-ATC_AGENT_CSV = os.path.join(BASE_DIR, 'drug_interaction/DrugBankParse/atc-agent.csv')
-ATC_PRODUCTNAME_CSV = os.path.join(BASE_DIR, 'drug_interaction/DrugBankParse/atc-productname.csv')
-AGENT_PRODUCTNAME_CSV = os.path.join(BASE_DIR, 'drug_interaction/DrugBankParse/agent-productname.csv')
-
-# Set the maximum number of lines to read from the CSV files (set to sys.maxsize to read all lines)
-MAX_LINES = 100000  # sys.maxsize
-
+# Define the path of the Excel file containing the drug interaction data
+EXCEL_FILE_PATH = os.path.join(BASE_DIR, 'interaction_sheet.xlsx')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/

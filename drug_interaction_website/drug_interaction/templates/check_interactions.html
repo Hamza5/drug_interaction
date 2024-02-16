@@ -30,13 +30,10 @@
 
         <h2>Interactions:</h2>
         <ul>
-            {% for drugs, codes in interactions.items %}
-                <li><p>{{ drugs.0 }} ↔️ {{ drugs.1 }}:</p>
-                    <ul>
-                    {% for code in codes %}
-                        <li>{{ code }}</li>
-                    {% endfor %}
-                    </ul>
+            {% for interaction in interactions %}
+                <li>
+                    <p>{{ interaction.drug1 }} ↔️ {{ interaction.drug2 }}:</p>
+                    <p>{{ interaction.reason }}</p>
                 </li>
             {% empty %}
                 <li>No interactions found</li>
