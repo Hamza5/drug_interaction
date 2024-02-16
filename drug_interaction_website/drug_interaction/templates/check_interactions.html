@@ -6,11 +6,14 @@
 {% block header %} Check Drug Interactions {% endblock %}
 
 {% block content %}
+    <script>let all_drugs = {{ all_drugs|safe }};</script>
     <script src="{% static 'js/drug_interactions.js' %}"></script>
-    <form method="get">
+    <form method="get" autocomplete="off">
         {% for drug in drugs %}
             <div>
-                <input type="text" name="drugs" value="{{ drug }}" placeholder="Drug Name">
+                <div class="autocomplete">
+                    <input type="text" name="drugs" value="{{ drug }}" placeholder="Drug Name">
+                </div>
                 <button type="button" class="remove-drug">-</button>
             </div>
         {% endfor %}
@@ -40,4 +43,9 @@
             {% endfor %}
         </ul>
     {% endif %}
+    <script>
+        for(let input of document.querySelectorAll('.autocomplete input[name="drugs"]')) {
+            autocomplete(input, all_drugs);
+        }
+    </script>
 {% endblock %}

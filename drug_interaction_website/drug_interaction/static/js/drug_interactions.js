@@ -3,15 +3,19 @@ function addField(clickEvent) {
     field.setAttribute("type", "text");
     field.setAttribute("name", "drugs");
     field.setAttribute("placeholder", "Drug name");
+    autocomplete_div = document.createElement("div");
+    autocomplete_div.setAttribute("class", "autocomplete");
+    autocomplete_div.appendChild(field);
     const removeButton = document.createElement("button");
     removeButton.setAttribute("type", "button");
     removeButton.setAttribute("class", "remove-drug");
     removeButton.textContent = "-";
     removeButton.addEventListener("click", removeField);
     const container = document.createElement('div');
-    container.appendChild(field);
+    container.appendChild(autocomplete_div);
     container.appendChild(removeButton);
     clickEvent.target.parentNode.insertBefore(container, clickEvent.target);
+    autocomplete(field, all_drugs);
 }
 
 function removeField(clickEvent) {
